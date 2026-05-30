@@ -3,7 +3,7 @@
 구글 Data Studio(구 Looker Studio)를 **사내 로컬로 대체**하는 팀별 성과 대시보드 스튜디오.
 데이터(CSV/Excel)를 올리면 → **실시간 Green/Red 달성도 대시보드** + **중간/최종 보고서** + **AI 인사이트/챗봇/차트추천**을 즉시 생성합니다.
 
-- **AI 엔진**: 딥시크 v4 플래시 (`deepseek-v4-flash`) — 사내 [Ubion LiteLLM](_context/Ubion_liteLLM_Migration_Kit) 프록시 경유
+- **AI 엔진**: 딥시크 v4 플래시 (`deepseek-v4-flash`) — 사내 LiteLLM 프록시(OpenAI 호환) 경유
 - **포함 예제 5종**: 운영팀 · 교육사업팀 · 글로벌사업팀 · 마케팅팀 (마케팅 도메인) + 투자팀 (비마케팅, 일반화 입증용)
 - **config 기반**: 팀별 YAML 1개만 바꾸면 어느 팀/도메인이든 재사용
 - **데이터 누적**: 엑셀을 계속 올려 SQLite에 쌓기(append/upsert) → [docs/DATA_STORE.md](docs/DATA_STORE.md)

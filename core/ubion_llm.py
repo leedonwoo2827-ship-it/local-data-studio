@@ -1,12 +1,12 @@
 """
 ubion_llm.py — Ubion LiteLLM 사내 thin wrapper (Python)
 
-원본: _context/Ubion_liteLLM_Migration_Kit/ubion_llm.py 를 복사.
+원본: 사내 LiteLLM 마이그레이션 키트의 ubion_llm.py 를 복사.
 유일한 변경점: 맨 아래 모듈 로드시 자동 client 생성을 try/except 로 감싸서,
 키(UBION_LITELLM_KEY)가 없어도 import 자체는 실패하지 않게 함 (대시보드는 키 없이도 조회 가능).
 
 환경 변수:
-    UBION_LITELLM_URL="http://192.168.50.119:4000"
+    UBION_LITELLM_URL="http://your-litellm-host:4000"
     UBION_LITELLM_KEY="sk-...본인-virtual-key..."
 """
 from __future__ import annotations

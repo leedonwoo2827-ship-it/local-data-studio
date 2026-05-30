@@ -2,13 +2,13 @@
 
 ## 무엇을 쓰나
 - **모델**: `deepseek-v4-flash` (기본). 추론과정이 필요하면 `deepseek-v4-flash-think`.
-- **경유**: 사내 [Ubion LiteLLM](../_context/Ubion_liteLLM_Migration_Kit) 프록시 (OpenAI 호환).
+- **경유**: 사내 LiteLLM 프록시 (OpenAI 호환).
 - **래퍼**: 키트의 `ubion_llm.py` 를 [core/ubion_llm.py](../core/ubion_llm.py) 로 복사해 사용.
   단일 진입점은 [core/llm.py](../core/llm.py).
 
 ## 연결 설정
 ```
-UBION_LITELLM_URL=http://192.168.50.119:4000
+UBION_LITELLM_URL=http://your-litellm-host:4000
 UBION_LITELLM_KEY=sk-...본인키...
 LDS_MODEL=deepseek-v4-flash      # 모델 교체는 이 변수만 바꾸면 됨
 ```
