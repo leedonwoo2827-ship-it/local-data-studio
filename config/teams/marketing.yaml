@@ -1,0 +1,48 @@
+team: 마케팅팀
+description: >
+  전사 통합 마케팅 성과를 추적한다.
+  전체 채널 유입, 전환, 참여율, 광고 효율(ROAS)과 예산 집행이 핵심.
+  광고비집행은 예산 한도 이하 유지가 목표(lower_better).
+period_column: 월
+data_file: data/samples/marketing_2025.csv
+
+kpis:
+  - name: 총ROAS
+    column: 총ROAS
+    unit: "%"
+    target: 400
+    direction: higher_better
+    green_threshold: 0.9
+    agg: mean
+  - name: 전체유입수
+    column: 전체유입수
+    unit: 회
+    target: 300000
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+  - name: 전환수
+    column: 전환수
+    unit: 건
+    target: 9000
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+  - name: 참여율
+    column: 참여율
+    unit: "%"
+    target: 5.0
+    direction: higher_better
+    green_threshold: 0.9
+    agg: mean
+  - name: 광고비집행
+    column: 광고비집행
+    unit: 원
+    target: 120000000
+    direction: lower_better
+    green_threshold: 0.9
+    agg: sum
+
+charts:
+  - {type: line, x: 월, y: 전환수,     title: 월별 전환 추이}
+  - {type: bar,  x: 월, y: 광고비집행, title: 월별 광고비 집행}

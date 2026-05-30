@@ -1,0 +1,48 @@
+team: 교육사업팀
+description: >
+  교육과정 모집 마케팅 성과를 추적한다.
+  수강신청 전환, 랜딩페이지 전환율, 광고 효율(ROAS), 수강생 획득비용(CAC)이 핵심.
+  CAC 는 낮을수록 좋은 지표(lower_better).
+period_column: 월
+data_file: data/samples/education_2025.csv
+
+kpis:
+  - name: 수강신청수
+    column: 수강신청수
+    unit: 명
+    target: 1200
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+  - name: 랜딩전환율
+    column: 랜딩전환율
+    unit: "%"
+    target: 4.5
+    direction: higher_better
+    green_threshold: 0.9
+    agg: mean
+  - name: 수강생획득비용
+    column: CAC
+    unit: 원
+    target: 35000
+    direction: lower_better
+    green_threshold: 0.9
+    agg: mean
+  - name: SNS도달수
+    column: SNS도달수
+    unit: 회
+    target: 600000
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+  - name: ROAS
+    column: ROAS
+    unit: "%"
+    target: 350
+    direction: higher_better
+    green_threshold: 0.9
+    agg: mean
+
+charts:
+  - {type: line, x: 월, y: 수강신청수, title: 월별 수강신청 추이}
+  - {type: bar,  x: 월, y: 광고비,     title: 월별 광고비 집행}

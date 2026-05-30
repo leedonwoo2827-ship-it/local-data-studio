@@ -1,0 +1,11 @@
+streamlit>=1.40
+pandas>=2.2
+plotly>=5.24
+openai>=1.50
+requests>=2.32
+PyYAML>=6.0
+openpyxl>=3.1
+python-dotenv>=1.0
+python-docx>=1.1
+python-pptx>=0.6.23
+reportlab>=4.1

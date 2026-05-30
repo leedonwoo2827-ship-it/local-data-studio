@@ -1,0 +1,47 @@
+team: 글로벌사업팀
+description: >
+  해외 시장 대상 디지털 마케팅 성과를 추적한다.
+  해외 방문자, 다국어 콘텐츠 조회, 해외 문의/파트너십 리드, 지역별 전환율이 핵심.
+period_column: 월
+data_file: data/samples/global_biz_2025.csv
+
+kpis:
+  - name: 해외방문자수
+    column: 해외방문자수
+    unit: 명
+    target: 80000
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+  - name: 다국어콘텐츠조회수
+    column: 다국어콘텐츠조회수
+    unit: 회
+    target: 200000
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+  - name: 해외문의수
+    column: 해외문의수
+    unit: 건
+    target: 600
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+  - name: 지역별전환율
+    column: 지역별전환율
+    unit: "%"
+    target: 2.5
+    direction: higher_better
+    green_threshold: 0.9
+    agg: mean
+  - name: 파트너십문의
+    column: 파트너십문의
+    unit: 건
+    target: 120
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+
+charts:
+  - {type: line, x: 월, y: 해외방문자수, title: 월별 해외 방문자 추이}
+  - {type: bar,  x: 월, y: 해외문의수,   title: 월별 해외 문의}

@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# Secrets / local
+.env
+
+# 사내 마이그레이션 키트 (테스트 API 키·사내 IP 포함) — 공개 금지
+_context/
+
+# 대용량 생성 원시데이터 (tools/generate_data.py 로 재생성 가능)
+_rawdata/
+
+# Claude Code 로컬 설정
+.claude/
+
+# Local data store (SQLite 누적 DB)
+db/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS
+Thumbs.db
+.DS_Store

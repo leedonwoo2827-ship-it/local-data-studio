@@ -1,0 +1,47 @@
+team: 운영팀
+description: >
+  법인/기관 운영 관점의 브랜드·채널 마케팅 성과를 추적한다.
+  공식 채널 유입, 콘텐츠 발행, 보도자료 노출, 리드 확보, 브랜드 인지도가 핵심.
+period_column: 월
+data_file: data/samples/operations_2025.csv
+
+kpis:
+  - name: 브랜드인지도지수
+    column: 브랜드인지도지수
+    unit: 점
+    target: 70
+    direction: higher_better
+    green_threshold: 0.9
+    agg: mean
+  - name: 공식채널유입수
+    column: 공식채널유입수
+    unit: 회
+    target: 50000
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+  - name: 콘텐츠발행건수
+    column: 콘텐츠발행건수
+    unit: 건
+    target: 240
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+  - name: 보도자료노출수
+    column: 보도자료노출수
+    unit: 회
+    target: 120000
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+  - name: 리드확보수
+    column: 리드확보수
+    unit: 건
+    target: 1800
+    direction: higher_better
+    green_threshold: 0.9
+    agg: sum
+
+charts:
+  - {type: line, x: 월, y: 공식채널유입수, title: 월별 공식채널 유입 추이}
+  - {type: bar,  x: 월, y: 콘텐츠발행건수, title: 월별 콘텐츠 발행}

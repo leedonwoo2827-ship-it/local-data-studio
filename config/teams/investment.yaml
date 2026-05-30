@@ -1,0 +1,48 @@
+team: 투자팀
+description: >
+  주식/포트폴리오 투자 성과를 추적한다 (비마케팅 도메인 예제).
+  누적수익률·승률·샤프지수·알파는 높을수록 좋고, MDD(최대낙폭)는 낮을수록 좋다.
+  마케팅 KPI 와 동일한 신호 로직(higher/lower_better)이 그대로 동작함을 보여준다.
+period_column: 월
+data_file: data/samples/investment_2025.csv
+
+kpis:
+  - name: 누적수익률
+    column: 누적수익률
+    unit: "%"
+    target: 12
+    direction: higher_better
+    green_threshold: 0.9
+    agg: last
+  - name: 승률
+    column: 승률
+    unit: "%"
+    target: 60
+    direction: higher_better
+    green_threshold: 0.9
+    agg: mean
+  - name: MDD
+    column: MDD
+    unit: "%"
+    target: 10
+    direction: lower_better
+    green_threshold: 0.9
+    agg: max
+  - name: 샤프지수
+    column: 샤프지수
+    unit: ""
+    target: 1.0
+    direction: higher_better
+    green_threshold: 0.9
+    agg: mean
+  - name: 알파
+    column: 알파
+    unit: "%"
+    target: 3
+    direction: higher_better
+    green_threshold: 0.9
+    agg: last
+
+charts:
+  - {type: line, x: 월, y: 누적수익률, title: 월별 누적수익률}
+  - {type: bar,  x: 월, y: 월수익률,   title: 월별 수익률}
