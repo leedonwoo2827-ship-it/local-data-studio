@@ -6,6 +6,7 @@ __pycache__/
 
 # Secrets / local
 .env
+.lds_settings.json
 
 # 사내 마이그레이션 키트 (테스트 API 키·사내 IP 포함) — 공개 금지
 _context/

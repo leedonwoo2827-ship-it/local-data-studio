@@ -10,12 +10,15 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-# .env 를 import 단계에서 먼저 로드 (LLM 키 인식)
+# .env(선택) 로드 후, 화면에서 저장한 설정을 환경변수에 반영 (저장 설정 우선)
 load_dotenv(Path(__file__).resolve().parent / ".env")
+from core import settings
+settings.apply_to_env()
 
 import streamlit as st
 
 from core.metrics import compute_kpis
+from studio.settings_panel import render_settings_panel
 from studio.sidebar import render_sidebar
 from studio.dashboard import render_dashboard
 from studio.ai_panel import render_ai_panel
@@ -24,6 +27,8 @@ st.set_page_config(page_title="Local Data Studio", page_icon="📊", layout="wid
 
 
 def main() -> None:
+    render_settings_panel()
+
     cfg, df, period_label = render_sidebar()
 
     if cfg is None:

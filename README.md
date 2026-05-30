@@ -8,15 +8,14 @@
 - **config 기반**: 팀별 YAML 1개만 바꾸면 어느 팀/도메인이든 재사용
 - **데이터 누적**: 엑셀을 계속 올려 SQLite에 쌓기(append/upsert) → [docs/DATA_STORE.md](docs/DATA_STORE.md)
 
-## 1분 시작 (Windows)
+## 시작하기 (Windows · 3단계, 명령어 필요 없음)
 
-```powershell
-.\setup.bat              # 가상환경 + 패키지 설치
-copy .env.example .env   # 그리고 .env 에 UBION_LITELLM_KEY 입력
-.\run.bat                # 브라우저에서 대시보드 실행
-```
+1. 탐색기에서 **`setup.bat` 더블클릭** → 설치(처음 한 번, 수 분 소요).
+2. **`run.bat` 더블클릭** → 브라우저에 대시보드가 열립니다.
+3. 화면 위 **⚙️ API 설정**에 **회사가 준 주소(URL)와 키**를 넣고 → **연결 테스트** → **저장**. 끝!
+   - 주소가 바뀌면 이 패널에서 다시 고치면 됩니다 (파일 편집 불필요).
 
-macOS/Linux는 `./setup.sh` → `./run.sh`.  (AI 키가 없어도 대시보드/표/차트는 동작)
+> macOS/Linux는 `./setup.sh` → `./run.sh`.  AI 키가 없어도 대시보드/표/차트는 동작합니다.
 
 ## 사용법
 

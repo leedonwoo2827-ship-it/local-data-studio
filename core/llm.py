@@ -27,11 +27,16 @@ def get_model() -> str:
 def _client():
     if not os.environ.get("UBION_LITELLM_KEY"):
         raise LLMNotConfigured(
-            "UBION_LITELLM_KEY 가 설정되지 않았습니다. "
-            ".env 에 키를 넣거나 키트의 bootstrap 스크립트를 실행하세요."
+            "API 키가 설정되지 않았습니다. 앱 상단의 ⚙️ API 설정에서 "
+            "주소(URL)와 키를 입력하고 저장하세요."
         )
     from .ubion_llm import UbionClient
     return UbionClient()
+
+
+def reset_client() -> None:
+    """설정(주소/키) 변경 후 캐시된 클라이언트를 무효화."""
+    _client.cache_clear()
 
 
 def is_configured() -> bool:
