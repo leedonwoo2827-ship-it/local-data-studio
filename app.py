@@ -21,15 +21,19 @@ from core.metrics import compute_kpis
 from studio.settings_panel import render_settings_panel
 from studio.sidebar import render_sidebar
 from studio.dashboard import render_dashboard
-from studio.ai_panel import render_ai_panel
+from studio.ai_panel import render_ai_panel, render_history_view
 
-st.set_page_config(page_title="Local Data Studio", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Local Data Studio", page_icon="📊", layout="wide", initial_sidebar_state="collapsed")
 
 
 def main() -> None:
     render_settings_panel()
 
+    # 사이드바를 먼저 그려 팀 선택/변경을 확정한 뒤,
     cfg, df, period_label = render_sidebar()
+
+    # '내 분석 이력'에서 선택한 항목을 마이페이지로 본문 상단에 표시
+    render_history_view()
 
     if cfg is None:
         st.title("Local Data Studio")

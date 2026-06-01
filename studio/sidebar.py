@@ -38,6 +38,37 @@ def _ingest_section(cfg: TeamConfig) -> None:
             st.rerun()
 
 
+def _history_section(cfg: TeamConfig) -> None:
+    """이 팀의 AI 분석 이력 — 선택하면 본문 마이페이지에 펼쳐지고, 🗑로 삭제."""
+    hist = store.read_ai_history(team_key=cfg.key, limit=50)
+    n = len(hist)
+    with st.sidebar.expander(f"🗂 내 분석 이력 ({n})", expanded=False):
+        if n == 0:
+            st.caption("아직 저장된 분석이 없습니다. AI 패널에서 생성하면 자동 저장됩니다.")
+            return
+        for _, row in hist.iterrows():
+            rid = int(row["id"])
+            stamp = str(row["created_at"])[5:16]  # MM-DD HH:MM
+            label = f"{row['kind']} · {stamp}"
+            title = str(row["title"] or "").strip()
+            if title:
+                label += f" · {title[:16]}"
+            c1, c2 = st.columns([5, 1])
+            if c1.button(label, key=f"hview_{rid}", use_container_width=True):
+                st.session_state["view_history_id"] = rid
+                st.rerun()
+            if c2.button("🗑", key=f"hdel_{rid}"):
+                store.delete_ai_output(rid)
+                if st.session_state.get("view_history_id") == rid:
+                    st.session_state.pop("view_history_id", None)
+                st.rerun()
+        st.markdown("---")
+        if st.button("🧹 이 팀 이력 전체 삭제", key=f"hclear_{cfg.key}"):
+            store.clear_ai_history(cfg.key)
+            st.session_state.pop("view_history_id", None)
+            st.rerun()
+
+
 def render_sidebar() -> tuple[TeamConfig | None, pd.DataFrame | None, str]:
     """반환: (cfg, df, period_label)."""
     st.sidebar.title("📊 Local Data Studio")
@@ -54,6 +85,11 @@ def render_sidebar() -> tuple[TeamConfig | None, pd.DataFrame | None, str]:
 
     team_name = st.sidebar.selectbox("팀 / 예제 선택", list(teams.keys()))
     cfg = load_team_config(teams[team_name])
+
+    # 팀(폴더)을 바꾸면 다른 팀 분석을 보던 마이페이지는 닫는다 (혼동 방지)
+    if st.session_state.get("_last_team_key") != cfg.key:
+        st.session_state.pop("view_history_id", None)
+        st.session_state["_last_team_key"] = cfg.key
 
     st.sidebar.markdown("---")
     has_db = store.row_count(cfg.key) > 0
@@ -84,6 +120,9 @@ def render_sidebar() -> tuple[TeamConfig | None, pd.DataFrame | None, str]:
 
     # 적재 패널 (항상 노출)
     _ingest_section(cfg)
+
+    # AI 분석 이력 (마이페이지 진입점)
+    _history_section(cfg)
 
     if df is None:
         return cfg, None, ""

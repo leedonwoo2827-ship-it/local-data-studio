@@ -33,4 +33,4 @@ def generate_report(cfg: TeamConfig, results: list[KpiResult],
         kpi_table=f"(Green {green} / Red {red})\n{kpi_table}",
         trend_summary=trend,
     )
-    return llm.complete(prompt, max_tokens=2500)
+    return llm.complete(prompt, max_tokens=6000)

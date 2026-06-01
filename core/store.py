@@ -103,6 +103,98 @@ def clear_team(team_key: str) -> None:
         con.execute(f'DROP TABLE IF EXISTS "{_table(team_key)}"')
 
 
+# ----------------------------------------------------------------------------
+# AI 분석 결과 이력 (인사이트 / 보고서 / 챗봇) — 단일 테이블에 누적
+# ----------------------------------------------------------------------------
+AI_TABLE = "ai_history"
+
+
+def _ensure_ai_table(con: sqlite3.Connection) -> None:
+    con.execute(
+        f'''CREATE TABLE IF NOT EXISTS "{AI_TABLE}" (
+            id         INTEGER PRIMARY KEY AUTOINCREMENT,
+            ref        TEXT,
+            created_at TEXT,
+            team_key   TEXT,
+            team       TEXT,
+            kind       TEXT,
+            title      TEXT,
+            period     TEXT,
+            model      TEXT,
+            content    TEXT
+        )'''
+    )
+    # 기존(ref 없는) 테이블 자동 마이그레이션
+    cols = [r[1] for r in con.execute(f'PRAGMA table_info("{AI_TABLE}")').fetchall()]
+    if "ref" not in cols:
+        con.execute(f'ALTER TABLE "{AI_TABLE}" ADD COLUMN ref TEXT')
+
+
+def save_ai_output(team_key: str, team: str, kind: str, content: str, *,
+                   ref: str = "", title: str = "", period: str = "",
+                   model: str = "") -> int:
+    """AI 결과 한 건을 이력 테이블에 저장하고 새 id 를 반환.
+
+    ref: 부서 간에도 겹치지 않는 고유 식별자(예: 20260601_143052_global_biz_insight).
+    """
+    with _connect() as con:
+        _ensure_ai_table(con)
+        cur = con.execute(
+            f'''INSERT INTO "{AI_TABLE}"
+                (ref, created_at, team_key, team, kind, title, period, model, content)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+            (ref, pd.Timestamp.now().isoformat(timespec="seconds"),
+             team_key, team, kind, title, period, model, content),
+        )
+        return int(cur.lastrowid)
+
+
+def read_ai_history(team_key: str | None = None, kind: str | None = None,
+                    limit: int = 100) -> pd.DataFrame:
+    """이력을 최신순으로 반환. team_key/kind 로 필터 가능."""
+    with _connect() as con:
+        _ensure_ai_table(con)
+        where, params = [], []
+        if team_key:
+            where.append("team_key = ?"); params.append(team_key)
+        if kind:
+            where.append("kind = ?"); params.append(kind)
+        clause = (" WHERE " + " AND ".join(where)) if where else ""
+        params.append(int(limit))
+        return pd.read_sql(
+            f'SELECT * FROM "{AI_TABLE}"{clause} ORDER BY id DESC LIMIT ?',
+            con, params=params,
+        )
+
+
+def get_ai_output(row_id: int) -> dict | None:
+    """이력 한 건을 dict 로 반환 (없으면 None)."""
+    with _connect() as con:
+        _ensure_ai_table(con)
+        con.row_factory = sqlite3.Row
+        row = con.execute(
+            f'SELECT * FROM "{AI_TABLE}" WHERE id = ?', (int(row_id),)
+        ).fetchone()
+        return dict(row) if row else None
+
+
+def delete_ai_output(row_id: int) -> None:
+    """이력 한 건 삭제."""
+    with _connect() as con:
+        _ensure_ai_table(con)
+        con.execute(f'DELETE FROM "{AI_TABLE}" WHERE id = ?', (int(row_id),))
+
+
+def clear_ai_history(team_key: str | None = None) -> None:
+    """이력 전체(team_key 지정 시 해당 팀만) 삭제."""
+    with _connect() as con:
+        _ensure_ai_table(con)
+        if team_key:
+            con.execute(f'DELETE FROM "{AI_TABLE}" WHERE team_key = ?', (team_key,))
+        else:
+            con.execute(f'DELETE FROM "{AI_TABLE}"')
+
+
 def list_tables() -> list[tuple[str, int]]:
     """(team_key, row_count) 목록."""
     if not DB_PATH.exists():
